@@ -5,7 +5,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 
-public class PaymentForm implements FocusListener {
+public class PaymentForm implements FocusListener, ActionListener {
     JFrame paymentForm;
     JPanel centrePanel;
     JLabel userIcon = new JLabel(new ImageIcon("C:\\Users\\VAIBHAV SHANBHAG\\IdeaProjects\\Movie Ticket Booking System\\src\\Movie_Ticket_Booking_System\\profile-user.png"));
@@ -38,7 +38,7 @@ public class PaymentForm implements FocusListener {
     JButton payment = new JButton("Pay Now");
 
 
-    static long tranId = 2021001;
+    private static int tranId = 2021001;
 
     Font inputFieldsFont = new Font("Sans Serif",Font.PLAIN,14);
     Font displayFont = new Font("Sans Serif",Font.BOLD,15);
@@ -100,7 +100,9 @@ public class PaymentForm implements FocusListener {
         exitCross.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                paymentForm.dispose();
+//                paymentForm.dispose();
+                paymentForm.setVisible(false);
+                paymentForm.setVisible(true);
             }
         });
         centrePanel.add(exitCross);
@@ -293,7 +295,39 @@ public class PaymentForm implements FocusListener {
         payment.setFont(displayFont);
         payment.setBackground(Color.cyan);
         payment.setBorder(border);
+        payment.addActionListener(this);
         paymentForm.add(payment);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        String cardNumber = cardNumberText.getText();
+        String cvv = String.valueOf(cvvText.getPassword());
+        String cardName = cardHolderNameText.getText();
+        String expDate = expiryDateText.getText();
+
+        if (cardNumber.length() == 12 && cvv.length() == 3 && cardName.length() >= 3 && expDate.length() == 5)
+        {
+            //Main Code
+        }
+
+        else if(cardNumber.length() < 12)
+        {
+            JOptionPane.showMessageDialog(null,"Invalid! Enter the correct card number.","Error",JOptionPane.WARNING_MESSAGE);
+        }
+
+        else if(cvv.length() < 3)
+        {
+            JOptionPane.showMessageDialog(null,"Invalid! Enter the correct cvv number.","Error",JOptionPane.WARNING_MESSAGE);
+        }
+
+        else if(expDate.length() < 5)
+        {
+            JOptionPane.showMessageDialog(null,"Invalid! Enter the correct expiry date.","Error",JOptionPane.WARNING_MESSAGE);
+        }
+
+        tranId++;
     }
 
     @Override
